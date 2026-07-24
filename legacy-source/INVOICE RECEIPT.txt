@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naisomedi Pharmacy — Atelier LUXE</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500&display=swap');
+:root{
+  --obsidian:#0a0a0f;
+  --charcoal:#1a1d23;
+  --champagne:#d4af37;
+  --rose:#b76e79;
+  --burgundy:#7c1d2a;
+  --ivory:#faf8f3;
+  --pearl:#ffffff;
+  --emerald:#046307;
+  --sapphire:#0f52ba;
+  --ink:#1f1f24;
+  --accent:#d4af37;
+  --gold-foil: linear-gradient(105deg, #c9a227 0%, #f5e7a1 25%, #d4af37 50%, #b08d2e 75%, #e6c766 100%);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:#08080b;color:#e8e6e1;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.app{display:grid;grid-template-columns:380px 1fr;min-height:100vh}
+@media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{position:sticky;top:0;z-index:20}}
+.sidebar{
+  background:var(--obsidian);
+  background-image:
+    radial-gradient(1200px 600px at -10% -10%, rgba(212,175,55,.08), transparent 60%),
+    radial-gradient(800px 400px at 110% 0%, rgba(183,110,121,.06), transparent 50%),
+    linear-gradient(180deg, #0c0c12, #08080b);
+  border-right:1px solid rgba(212,175,55,.25);
+  box-shadow:inset -1px 0 0 rgba(212,175,55,.15), inset 0 0 80px rgba(0,0,0,.6);
+  padding:22px 18px 40px;overflow:auto;
+}
+.brand{display:flex;align-items:center;gap:14px;padding:12px 14px;margin-bottom:18px;border:1px solid rgba(212,175,55,.2);border-radius:16px;background:rgba(255,255,255,.02);backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04)}
+.crest{width:48px;height:48px;border-radius:50%;background:var(--gold-foil);display:grid;place-items:center;position:relative;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 6px 18px rgba(212,175,55,.25), inset 0 2px 4px rgba(255,255,255,.4)}
+.crest svg{width:28px;height:28px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.3))}
+.brand h1{font-family:"Playfair Display",serif;font-weight:700;letter-spacing:.3px;margin:0;font-size:20px;color:#f5f0df}
+.brand p{margin:2px 0 0;color:#b9b5aa;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.control{background:rgba(255,255,255,.03);border:1px solid rgba(212,175,55,.14);border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.control h3{margin:0 0 10px;font-family:"Cormorant Garamond",serif;font-weight:600;letter-spacing:.3px;color:#f0e6c8;font-size:17px;display:flex;align-items:center;gap:8px}
+.control h3:after{content:"";flex:1;height:1px;background:linear-gradient(90deg, rgba(212,175,55,.4), transparent);margin-left:8px}
+label{font-size:12px;color:#c9c5b6;letter-spacing:.04em;display:block;margin:8px 0 6px}
+input,select,textarea{width:100%;background:#0f1117;color:#f2efe6;border:1px solid rgba(212,175,55,.22);border-radius:10px;padding:10px 11px;font-size:14px;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,175,55,.15)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pill{display:flex;background:#0d0f14;border:1px solid rgba(212,175,55,.25);border-radius:999px;padding:4px;gap:4px}
+.pill button{flex:1;border:0;background:transparent;color:#cfc9b8;padding:9px 12px;border-radius:999px;font-weight:500;cursor:pointer;transition:.2s;font-size:13px;letter-spacing:.02em}
+.pill button.active{background:var(--gold-foil);color:#1a1205;box-shadow:0 4px 12px rgba(212,175,55,.25),inset 0 1px 0 rgba(255,255,255,.5);font-weight:600}
+.colors{display:grid;grid-template-columns:repeat(10,1fr);gap:8px}
+.swatch{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.4);cursor:pointer;box-shadow:inset 0 1px 2px rgba(255,255,255,.25),0 2px 6px rgba(0,0,0,.4);position:relative}
+.swatch.active{outline:2px solid #fff;outline-offset:2px}
+.btn{background:#141821;color:#f0e6c8;border:1px solid rgba(212,175,55,.3);padding:10px 12px;border-radius:10px;font-weight:500;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,175,55,.12);transform:translateY(-1px)}
+.btn-gold{background:var(--gold-foil);color:#1b1405;border:0;font-weight:700;box-shadow:0 6px 18px rgba(212,175,55,.25),inset 0 1px 0 rgba(255,255,255,.6)}
+.btn-ghost{background:transparent}
+.items{display:grid;gap:8px;max-height:220px;overflow:auto;padding-right:4px}
+.item{display:grid;grid-template-columns:1fr 70px 80px 26px;gap:6px}
+.item input{padding:8px 8px;font-size:13px}
+.del{background:#1a0f12;border:1px solid rgba(124,29,42,.5);color:#f0c9cf;border-radius:8px;cursor:pointer}
+.sig-wrap{background:#0c0e13;border:1px dashed rgba(212,175,55,.4);border-radius:12px;padding:10px}
+#sigpad{width:100%;height:120px;background:#0a0b0f;border-radius:8px;touch-action:none;cursor:crosshair}
+.stamp-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stamp-btn{padding:8px;border-radius:10px;border:1px solid rgba(212,175,55,.25);background:#0f1218;color:#e8e0c8;cursor:pointer;font-size:12px}
+.stamp-btn.active{outline:2px solid var(--accent)}
+.templates{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tpl{padding:10px;border-radius:10px;border:1px solid rgba(212,175,55,.2);background:#0e1117;cursor:pointer;text-align:center;font-size:12px;color:#d6ceb6}
+.tpl.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(212,175,55,.2) inset}
+.workspace{background:#171923;padding:30px;display:grid;place-items:start center;overflow:auto;background-image:radial-gradient(900px 500px at 70% -10%, rgba(212,175,55,.07), transparent), radial-gradient(700px 400px at 0% 100%, rgba(124,29,42,.05), transparent)}
+.stage{width:min(100%,1100px)}
+.paper{
+  margin:0 auto;position:relative;
+  background:var(--ivory);
+  color:#1a1a1e;
+  box-shadow:0 30px 80px rgba(0,0,0,.55),0 2px 0 rgba(0,0,0,.2);
+  border-radius:4px;
+  overflow:hidden;
+}
+.paper:before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none}
+.paper.linen:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.02), transparent 120px), linear-gradient(0deg, rgba(0,0,0,.02), transparent 120px);pointer-events:none}
+.invoice{width:794px;min-height:1123px;padding:0}
+.receipt{width:340px;min-height:600px;padding:0}
+@media(max-width:980px){.invoice,.receipt{width:100%;min-height:auto}}
+.doc{padding:48px 56px}
+.receipt .doc{padding:22px 18px}
+.foil-single{box-shadow:inset 0 0 0 1px var(--accent), inset 0 0 0 4px #fff, inset 0 0 0 5px var(--accent)}
+.foil-double{box-shadow:inset 0 0 0 2px var(--accent), inset 0 0 0 6px #fff, inset 0 0 0 8px var(--accent), inset 0 0 0 9px rgba(0,0,0,.05)}
+.header{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;padding-bottom:22px;border-bottom:2px solid transparent;border-image:var(--gold-foil) 1}
+.logo{width:72px;height:72px;border-radius:14px;background:#0b0c10;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(212,175,55,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+.logo img{width:100%;height:100%;object-fit:cover}
+.logo.foil{filter:sepia(1) saturate(2.2) hue-rotate(8deg) brightness(1.05) contrast(1.05)}
+.brand-doc h2{margin:0;font-family:"Playfair Display",serif;font-size:28px;letter-spacing:.2px;color:#151419}
+.brand-doc p{margin:4px 0 0;color:#6b6355;font-size:12.5px;letter-spacing:.04em}
+.doc-type{text-align:right}
+.doc-type .big{font-family:"Cormorant Garamond",serif;font-size:34px;line-height:1;color:#1b1a1f}
+.doc-type .num{margin-top:6px;font-family:Inter;font-size:12px;letter-spacing:.18em;color:#8a7d5e;background:linear-gradient(90deg, rgba(212,175,55,.15), transparent);padding:4px 8px;border-radius:6px;display:inline-block;border:1px solid rgba(212,175,55,.25)}
+.meta{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;margin:28px 0}
+.card{background:#fffdf8;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:16px 16px;box-shadow:0 1px 0 rgba(0,0,0,.04), inset 0 1px 0 #fff}
+.card h4{margin:0 0 8px;font-family:"Cormorant Garamond",serif;font-size:16px;color:#3a3325;letter-spacing:.3px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:6px;font-size:13px;color:#3f3a31}
+.kv b{color:#1d1b17;font-weight:600}
+.table{width:100%;border-collapse:separate;border-spacing:0;margin-top:18px;overflow:hidden;border-radius:12px;border:1px solid rgba(0,0,0,.08)}
+.table th{background:#141418;color:#f4e9c6;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:12px 10px;text-align:left;font-family:Inter}
+.table th:last-child,.table td:last-child{text-align:right}
+.table td{padding:12px 10px;border-top:1px solid rgba(0,0,0,.06);font-size:13.5px;background:#fff;vertical-align:top}
+.table tr:nth-child(even) td{background:#fcf9f1}
+.sku{font-size:11px;color:#8a7f6a;margin-top:2px}
+.totals{margin-top:18px;display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start}
+.note{font-family:"Cormorant Garamond",serif;font-style:italic;color:#5a5244;background:#fffaf0;border:1px dashed rgba(212,175,55,.4);padding:12px 14px;border-radius:10px;font-size:14px}
+.sum{background:linear-gradient(180deg, #fff, #fdf7e6);border:1px solid rgba(212,175,55,.35);border-radius:14px;overflow:hidden;box-shadow:0 10px 24px rgba(212,175,55,.12), inset 0 1px 0 #fff}
+.sum .row{display:flex;justify-content:space-between;padding:10px 14px;font-size:14px;border-bottom:1px dashed rgba(212,175,55,.25);color:#3a3325}
+.sum .row.total{background:var(--gold-foil);color:#1a1306;font-weight:700;font-size:16px;border-bottom:0}
+.sign-area{margin-top:34px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:end}
+.sig-line{border-top:2px dashed var(--accent);padding-top:8px;text-align:center}
+.sig-line span{font-family:"Cormorant Garamond",serif;font-size:15px;color:#5b5343;letter-spacing:.3px}
+.sig-img{max-height:56px;object-fit:contain;filter:contrast(1.1)}
+.qr-wrap{display:flex;gap:12px;align-items:center;justify-content:flex-end}
+.qr{width:92px;height:92px;background:#fff;border:1px solid rgba(212,175,55,.4);border-radius:12px;display:grid;place-items:center;position:relative;box-shadow:inset 0 0 0 4px #fdf6e0}
+.qr:before{content:"";position:absolute;inset:-6px;border:1px solid var(--accent);border-radius:14px;mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:6px;background:var(--gold-foil)}
+.qr canvas{width:78px;height:78px}
+.qr-cap{font-size:11px;color:#7a705c;text-align:right;line-height:1.3}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#0e1410;color:#e6f5e8;border:1px solid rgba(4,99,7,.35);box-shadow:0 0 0 3px rgba(4,99,7,.08), inset 0 1px 0 rgba(255,255,255,.06);font-size:12px;letter-spacing:.06em;position:relative;overflow:hidden}
+.badge svg{width:16px;height:16px}
+.badge:after{content:"";position:absolute;inset:-50% -20%;background:linear-gradient(75deg, transparent 40%, rgba(255,255,255,.5) 50%, transparent 60%);transform:translateX(-120%);animation:shine 4.5s infinite}
+@keyframes shine{0%{transform:translateX(-120%)}60%{transform:translateX(220%)}100%{transform:translateX(220%)}}
+.footer{margin-top:30px;padding-top:14px;border-top:1px solid rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:11px;color:#7a7364}
+.watermark{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%) rotate(-22deg);font-family:"Playfair Display",serif;font-size:84px;color:rgba(212,175,55,.09);letter-spacing:.2em;pointer-events:none;white-space:nowrap}
+.receipt .watermark{font-size:48px}
+.stamp{position:absolute;width:118px;height:118px;transform:rotate(-15deg);mix-blend-mode:multiply;opacity:.92;filter:contrast(1.1) saturate(1.05);z-index:5;pointer-events:none;user-select:none}
+.stamp.wax{background:radial-gradient(circle at 30% 30%, #e8d39a, var(--accent) 40%, #9c7f2a 70%, #7a621f 100%);border-radius:50%;box-shadow:inset 0 3px 8px rgba(0,0,0,.45), inset 0 -4px 10px rgba(255,255,255,.25), 0 8px 18px rgba(0,0,0,.35);border:2px solid rgba(90,66,15,.6)}
+.stamp.wax:before{content:"";position:absolute;inset:8px;border-radius:50%;border:1.5px solid rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px rgba(255,255,255,.15)}
+.stamp.wax .mon{position:absolute;inset:0;display:grid;place-items:center;font-family:"Playfair Display",serif;font-weight:700;font-size:34px;color:rgba(20,12,2,.85);text-shadow:0 1px 0 rgba(255,236,180,.5), 0 -1px 0 rgba(0,0,0,.4);letter-spacing:1px}
+.stamp.rubber{width:160px;height:84px;border-radius:12px;background:repeating-linear-gradient(-45deg, rgba(0,0,0,.03) 0 3px, transparent 3px 6px), var(--stamp-color,#7c1d2a);box-shadow:inset 0 0 0 3px rgba(0,0,0,.2), inset 0 0 18px rgba(0,0,0,.35), 0 6px 14px rgba(0,0,0,.28);border:2px solid rgba(0,0,0,.35);display:grid;place-items:center}
+.stamp.rubber .txt{font-family:Inter;font-weight:800;letter-spacing:.18em;color:rgba(255,240,230,.92);text-shadow:0 1px 0 rgba(0,0,0,.5);border:2px solid rgba(255,240,230,.85);padding:8px 10px;border-radius:6px;transform:rotate(-2deg);font-size:13px}
+.perf{position:relative}
+.perf:before{content:"";position:absolute;left:0;right:0;top:-10px;height:12px;background:radial-gradient(circle at 6px 6px, transparent 5px, var(--ivory) 5.5px) 0 0/12px 12px repeat-x;opacity:.9}
+.template-royal .table th{background:#0c0d12}
+.template-champagne .table th{background:linear-gradient(180deg,#d4af37,#b8952e);color:#1a1206}
+.template-burgundy .table th{background:#5b1420}
+.template-emerald .table th{background:#063d24}
+.template-pearl .table th{background:#2a2f3a}
+.template-executive .doc{font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
+.template-executive .brand-doc h2{font-family:inherit}
+.callig{font-family:"Cormorant Garamond",serif !important;font-style:italic !important}
+.cat-row{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.15);border-radius:8px;font-size:13px;color:#d6ceb6;margin-bottom:4px}
+.cat-row .cat-badge{font-size:10px;color:#6b6355;letter-spacing:.05em}
+.cat-row .del{width:24px;height:24px;font-size:16px;padding:0;display:grid;place-items:center}
+.print-bleed{position:absolute;inset:0;pointer-events:none;display:none}
+@media print{
+  body{background:#fff}
+  .sidebar,.workspace{padding:0}
+  .app{display:block}
+  .sidebar{display:none}
+  .workspace{background:#fff}
+  .paper{box-shadow:none;margin:0;border-radius:0;width:210mm;min-height:297mm}
+  .print-bleed{display:block;outline:1mm dashed rgba(0,0,0,.15);outline-offset:-4mm}
+  @page{size:A4;margin:8mm}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="crest">
+        <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="#1a1205" stroke-opacity=".5" stroke-width="2"/><path d="M20 20 L20 44 M20 20 L32 32 L20 44" stroke="#1a1205" stroke-width="2.5" stroke-linecap="round"/><path d="M44 20 C38 20 34 24 34 32 C34 40 38 44 44 44" stroke="#1a1205" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <h1>Naisomedi Atelier</h1>
+        <p>Pharmacy • EST. 2026</p>
+      </div>
+    </div>
+
+    <div class="control">
+      <h3>Document</h3>
+      <div class="pill" id="docToggle">
+        <button class="active" data-type="invoice">INVOICE</button>
+        <button data-type="receipt">RECEIPT</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div><label>Template</label>
+          <div class="templates">
+            <div class="tpl active" data-tpl="royal">Royal Obsidian</div>
+            <div class="tpl" data-tpl="champagne">Champagne</div>
+            <div class="tpl" data-tpl="burgundy">Burgundy Velvet</div>
+            <div class="tpl" data-tpl="emerald">Emerald Noir</div>
+            <div class="tpl" data-tpl="pearl">Pearl Minimal</div>
+            <div class="tpl" data-tpl="executive">Executive Thermal</div>
+          </div>
+        </div>
+        <div>
+          <label>Foil Border</label>
+          <select id="foil">
+            <option value="double">Double Gold</option>
+            <option value="single">Single Gold</option>
+            <option value="none">None</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="control">
+      <h3>Atelier Color</h3>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+        <input type="color" id="accentPicker" value="#d4af37" style="width:44px;height:36px;padding:0;border-radius:8px;border:1px solid rgba(212,175,55,.4);background:#0d0f14">
+        <div style="font-size:12px;color:#b8b29f">Champagne Gold + 30 luxury presets</div>
+      </div>
+      <div class="colors" id="swatches"></div>
+    </div>
+
+    <div class="control">
+      <h3>Identity</h3>
+      <div class="row">
+        <div><label>Invoice No.</label><input id="invNo" value="NAI-LUX-2026-001-A7F2"></div>
+        <div><label>Currency</label><select id="currency"><option>KES</option><option>USD</option><option>EUR</option><option>GBP</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>Issue Date</label><input type="date" id="dateIssue"></div>
+        <div><label>Due Date</label><input type="date" id="dateDue"></div>
+      </div>
+      <label>Logo (gold foil overlay)</label>
+      <div style="display:flex;gap:8px">
+        <input type="file" id="logoUp" accept="image/*">
+        <button class="btn btn-ghost" id="foilToggle">Foil: ON</button>
+      </div>
+    </div>
+
+    <!-- ═══ CATEGORY MANAGER ══════════════════════════════════ -->
+    <div class="control" id="catManager">
+      <h3>Design Categories</h3>
+      <div id="catList"></div>
+      <button class="btn" id="addCatBtn" style="width:100%;margin-top:6px">+ Add Category</button>
+    </div>
+
+    <!-- ═══ PHARMACY DETAILS CATEGORY ═══════════════════════════ -->
+    <div class="control" id="cat-pharmacy" data-cat-id="pharmacy">
+      <h3>Pharmacy Details</h3>
+      <label>Pharmacy Name</label>
+      <input id="pharmName" value="Naisomedi Pharmacy" placeholder="Pharmacy Name">
+      <div class="row">
+        <div><label>Phone</label><input id="pharmPhone" value="+254 700 000 111" placeholder="+254 ..."></div>
+        <div><label>Email</label><input id="pharmEmail" value="concierge@naisomedi.pharmacy" placeholder="email@..."></div>
+      </div>
+      <label>Location — Area / City</label>
+      <input id="pharmArea" value="Nairobi" placeholder="Area / City">
+      <div class="row">
+        <div><label>Place / Street</label><input id="pharmPlace" value="Westlands Square" placeholder="Place / Street"></div>
+        <div><label>Building / Floor</label><input id="pharmBuilding" value="4th Floor" placeholder="Building / Floor"></div>
+      </div>
+    </div>
+
+    <div class="control">
+      <h3>VIP Client</h3>
+      <input id="clientName" placeholder="Client Name" value="Dr. Amani Kerubo">
+      <div class="row">
+        <input id="clientTier" placeholder="Tier" value="Platinum">
+        <input id="clientId" placeholder="VIP ID" value="VIP-8821">
+      </div>
+      <input id="clientPhone" placeholder="Phone" value="+254 712 345 678">
+      <input id="clientEmail" placeholder="Email" value="amani.kerubo@private.ke">
+    </div>
+
+    <div class="control">
+      <h3>Apothecary Items</h3>
+      <div class="items" id="items"></div>
+      <button class="btn" id="addItem" style="margin-top:8px;width:100%">+ Add Premium Item</button>
+      <div class="row" style="margin-top:10px">
+        <div><label>VAT %</label><input id="vat" type="number" value="16"></div>
+        <div><label>Withholding %</label><input id="wht" type="number" value="0"></div>
+      </div>
+      <label>Discount Tier (auto)</label>
+      <select id="discountMode"><option value="auto">Auto: 5% >5K, 10% >10K</option><option value="none">None</option><option value="custom">Custom</option></select>
+      <input id="discountCustom" type="number" placeholder="Custom %" style="display:none;margin-top:6px" value="0">
+    </div>
+
+    <div class="control">
+      <h3>Signature & Seal</h3>
+      <div class="sig-wrap">
+        <canvas id="sigpad" width="600" height="200"></canvas>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn" id="sigClear">Clear</button>
+          <button class="btn btn-gold" id="sigSave">Apply Gold Signature</button>
+        </div>
+      <label style="margin-top:10px">Wax / Rubber Stamp</label>
+      <div class="stamp-opts">
+        <button class="stamp-btn active" data-stamp="wax" data-color="#d4af37">Wax Gold</button>
+        <button class="stamp-btn" data-stamp="wax" data-color="#7c1d2a">Wax Burgundy</button>
+        <button class="stamp-btn" data-stamp="wax" data-color="#046307">Wax Emerald</button>
+        <button class="stamp-btn" data-stamp="rubber" data-color="#1e3a8a">Rubber Royal</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div><label>Seal Placement</label><select id="sealPos"><option value="signature">Over Signature</option><option value="top">Top Right</option><option value="bottom-left">Bottom Left</option><option value="bottom-right">Bottom Right</option></select></div>
+        <div><label>Watermark</label><select id="watermark"><option value="on">CONFIDENTIAL</option><option value="off">Off</option></select></div>
+      </div>
+    </div>
+
+    <div class="control">
+      <h3>Finishing</h3>
+      <label>Concierge Notes (calligraphy)</label>
+      <textarea id="notes" rows="3">With gratitude for your trust in our private apothecary services. Dispense as directed. Store below 25°C.</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="btn" id="togNote">Calligraphy: OFF</button>
+        <button class="btn" id="saveJson">Save</button>
+        <button class="btn" id="loadJson">Load</button>
+        <input type="file" id="fileLoader" accept=".json" hidden>
+      </div>
+    </div>
+
+    <div class="control">
+      <h3>Atelier Output</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="window.print()">Print PDF</button>
+        <button class="btn" id="dlPNG">Download 4K PNG</button>
+        <button class="btn" id="newNumber">Regenerate No.</button>
+      </div>
+      <p style="margin:10px 0 0;font-size:11px;color:#9b937f">Fully offline. All data stays in NAISOMEDI_POS.</p>
+    </div>
+  </aside>
+
+  <main class="workspace">
+    <div class="stage">
+      <div class="paper invoice linen foil-double template-royal" id="paper">
+        <div class="print-bleed"></div>
+        <div class="watermark" id="wm">CONFIDENTIAL</div>
+        <div class="stamp wax" id="stamp" style="right:64px; top:420px"><div class="mon">NP</div></div>
+        <div class="doc">
+          <div class="header">
+            <div class="logo foil" id="logoBox">
+              <img id="logoImg" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop stop-color='%23f5e7a1'/%3E%3Cstop offset='1' stop-color='%23d4af37'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='18' fill='%230b0c10'/%3E%3Ccircle cx='50' cy='50' r='32' fill='url(%23g)'/%3E%3Ctext x='50' y='58' font-family='Playfair Display' font-size='28' text-anchor='middle' fill='%23160805' font-weight='700'%3ENP%3C/text%3E%3C/svg%3E">
+            </div>
+            <div class="brand-doc">
+              <h2 id="docPharmName">Naisomedi Pharmacy</h2>
+              <p id="docPharmInfo">4th Floor • Westlands Square • Nairobi • +254 700 000 111 • concierge@naisomedi.pharmacy</p>
+            </div>
+            <div class="doc-type">
+              <div class="big" id="docBig">INVOICE</div>
+              <div class="num" id="docNum">NAI-LUX-2026-001-A7F2</div>
+            </div>
+          </div>
+
+          <div class="meta">
+            <div class="card">
+              <h4>Bill To — VIP Profile</h4>
+              <div class="kv">
+                <b>Name</b><span id="vName">Dr. Amani Kerubo</span>
+                <b>Tier / ID</b><span><span id="vTier">Platinum</span> • <span id="vId">VIP-8821</span></span>
+                <b>Contact</b><span id="vContact">+254 712 345 678 • amani.kerubo@private.ke</span>
+                <b>Rx Reference</b><span>RX-NAI-77291 • Private Consultation</span>
+              </div>
+            </div>
+            <div class="card">
+              <h4>Document Details</h4>
+              <div class="kv">
+                <b>Issue Date</b><span id="vIssue">—</span>
+                <b>Due Date</b><span id="vDue">—</span>
+                <b>Payment</b><span>MPESA Till 000 • Bank Transfer • USD/EUR Accepted</span>
+                <b>Pharmacist</b><span>Dr. L. Naiso, PhD — Reg. PPB/2026/114</span>
+              </div>
+            </div>
+          </div>
+
+          <table class="table" id="tbl">
+            <thead><tr><th style="width:42%">Item / Description</th><th>SKU • Batch</th><th>Expiry</th><th>Qty</th><th>Unit</th><th>Amount</th></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+
+          <div class="totals">
+            <div>
+              <div class="note" id="noteBox">With gratitude for your trust in our private apothecary services. Dispense as directed. Store below 25°C.</div>
+              <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span class="badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                  CERTIFIED AUTHENTIC • Naisomedi Pharmacy • EST. 2026
+                </span>
+                <span style="font-size:11px;color:#8a826f">Verify at naisomedi.pharmacy/verify</span>
+              </div>
+            </div>
+            <div class="sum">
+              <div class="row"><span>Subtotal</span><b id="sSub">—</b></div>
+              <div class="row"><span>VAT (16%)</span><b id="sVat">—</b></div>
+              <div class="row"><span>Withholding</span><b id="sWht">—</b></div>
+              <div class="row"><span>VIP Discount</span><b id="sDisc">—</b></div>
+              <div class="row total"><span>Total Due</span><b id="sTotal">—</b></div>
+            </div>
+          </div>
+
+          <div class="sign-area">
+            <div class="sig-line">
+              <img id="sigImg" class="sig-img" alt="" style="display:none">
+              <span>Authorized Pharmacist • Sign above</span>
+            </div>
+            <div class="qr-wrap">
+              <div>
+                <div class="qr-cap">
+                  Scan to verify authenticity<br>
+                  <span id="qrRef">ID: NAI-LUX-2026-001</span><br>
+                  <span id="qrVerifyMsg" style="font-size:10px;color:#8a7a5e;display:block;margin-top:3px;max-width:130px;line-height:1.4;">
+                    Issued by Naisomedi Pharmacy. Scan QR to confirm document validity at naisomedipharmacy.com
+                  </span>
+                </div>
+              </div>
+              <div class="qr"><canvas id="qrc" width="156" height="156"></canvas></div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div>Atelier Document • Handcrafted in Nairobi</div>
+            <div id="audit">Generated: — • Hash: —</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- QRious inlined (MIT) -->
+<script>!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.QRious=t()}(this,function(){"use strict";function e(e){var t={};for(var n in e)t[n]=e[n];return t}var t=function(){function t(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),n=function(){function n(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,n),this.canvas="string"==typeof t?document.getElementById(t):t,this.context=this.canvas.getContext("2d")}return t(n,[{key:"draw",value:function(e,t,n,r,i,o){var u=this.context;u.clearRect(0,0,this.canvas.width,this.canvas.height),u.fillStyle=i,u.fillRect(0,0,this.canvas.width,this.canvas.height);for(var a=Math.ceil(n/r),c=0;c<r;c++)for(var f=0;f<r;f++)e.isDark(c,f)&& (u.fillStyle=o,u.fillRect(Math.round(f*a+t),Math.round(c*a+t),Math.ceil(a),Math.ceil(a)))}}]),n}(),r=function(){function r(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,r),this.options=e(t),this.qrcode=null,this.renderer=new n(this.options.element)}return t(r,[{key:"set",value:function(t){this.options=e(Object.assign({},this.options,t)),this.update()}},{key:"update",value:function(){var e=this.options,t=new i(-1,f[e.level]);t.addData(e.value),t.make(),this.qrcode=t,this.renderer.draw(t,e.padding||0,e.size,t.getModuleCount(),e.background||"#fff",e.foreground||"#000")} }]),r}();var i=function(){function e(t,n){this.typeNumber=t,this.errorCorrectLevel=n,this.modules=null,this.moduleCount=0,this.dataCache=null,this.dataList=[]}return e.prototype.addData=function(e){this.dataList.push(new o(e)),this.dataCache=null},e.prototype.isDark=function(e,t){if(e<0||this.moduleCount<=e||t<0||this.moduleCount<=t)throw new Error(e+","+t);return this.modules[e][t]},e.prototype.getModuleCount=function(){return this.moduleCount},e.prototype.make=function(){this.makeImpl(!1,this.getBestMaskPattern())},e.prototype.makeImpl=function(e,t){this.moduleCount=4*this.typeNumber+17,this.modules=new Array(this.moduleCount);for(var n=0;n<this.moduleCount;n++){this.modules[n]=new Array(this.moduleCount);for(var r=0;r<this.moduleCount;r++)this.modules[n][r]=null}this.setupPositionProbePattern(0,0),this.setupPositionProbePattern(this.moduleCount-7,0),this.setupPositionProbePattern(0,this.moduleCount-7),this.setupTimingPattern(),this.setupPositionAdjustPattern(),this.setupTypeInfo(e,t),null==this.dataCache&&(this.dataCache=o.createData(this.typeNumber,this.errorCorrectLevel,this.dataList)),this.mapData(this.dataCache,t)},e.prototype.setupPositionProbePattern=function(e,t){for(var n=-1;n<=7;n++)if(!(e+n<=-1||this.moduleCount<=e+n))for(var r=-1;r<=7;r++)t+r<=-1||this.moduleCount<=t+r||(this.modules[e+n][t+r]=0<=n&&n<=6&&(0==r||6==r)||0<=r&&r<=6&&(0==n||6==n)||2<=n&&n<=4&&2<=r&&r<=4)},e.prototype.getBestMaskPattern=function(){return 0},e.prototype.setupTimingPattern=function(){for(var e=8;e<this.moduleCount-8;e++)null===this.modules[e][6]&&(this.modules[e][6]=e%2==0),null===this.modules[6][e]&&(this.modules[6][e]=e%2==0)},e.prototype.setupPositionAdjustPattern=function(){},e.prototype.setupTypeInfo=function(e,t){},e.prototype.mapData=function(e,t){for(var n=-1,r=this.moduleCount-1,i=7,o=0,u=this.moduleCount-1;u>0;u-=2){6==u&&u--;for(;;){for(var a=0;a<2;a++)if(null===this.modules[r][u-a]){var c=!1;o<e.length&&(c=(e[o]>>>i&1)==1),h.getMask(t,r,u-a)&&(c=!c),this.modules[r][u-a]=c,0==--i&&(i=7,o++)}if((r+=n)<0||this.moduleCount<=r){r-=n,n=-n;break}}}},e}(),o=function(){function e(t){this.mode=s.MODE_8BIT_BYTE,this.data=t}return e.prototype.getLength=function(){return this.data.length},e.prototype.write=function(e){for(var t=0;t<this.data.length;t++)e.put(this.data.charCodeAt(t),8)},e.createData=function(t,n,r){for(var i=u.getRSBlocks(t,n),o=new a,c=0;c<r.length;c++){var f=r[c];o.put(f.mode,4),o.put(f.getLength(),l.getLengthInBits(f.mode,t)),f.write(o)}for(var h=0,s=0;s<i.length;s++)h+=i[s].dataCount;if(o.getLengthInBits()>8*h)throw new Error("code length overflow");for(o.getLengthInBits()+4<=8*h&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;o.getLengthInBits()<8*h;)o.put(236,8),o.getLengthInBits()<8*h&&o.put(17,8);return o},e}(),u={getRSBlocks:function(e,t){var n=u.getRsBlockTable(e,t);if(void 0==n)throw new Error("bad rs block");for(var r=[],i=0,s=n.length/3,o=0;o<s;o++)for(var a=n[3*o+0],c=n[3*o+1],f=n[3*o+2],h=0;h<a;h++)r.push(new d(c,f));return r},getRsBlockTable:function(e,t){switch(t){case f.L:return u.RS_BLOCK_TABLE[4*(e-1)+0];case f.M:return u.RS_BLOCK_TABLE[4*(e-1)+1];case f.Q:return u.RS_BLOCK_TABLE[4*(e-1)+2];case f.H:return u.RS_BLOCK_TABLE[4*(e-1)+3]}},RS_BLOCK_TABLE:[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16]]},a=function(){function e(){this.buffer=[],this.length=0}return e.prototype.getLengthInBits=function(){return this.length},e.prototype.put=function(e,t){for(var n=0;n<t;n++)this.putBit((e>>>t-n-1&1)==1)},e.prototype.putBit=function(e){this.buffer.push(e?1:0),this.length++},e}(),c={MODE_NUMBER:1,MODE_ALPHA_NUM:2,MODE_8BIT_BYTE:4,MODE_KANJI:8},s=c,d=function(e,t){this.totalCount=e,this.dataCount=t},h={getMask:function(e,t,n){switch(e){case 0:return(t+n)%2==0;case 1:return t%2==0;case 2:return n%3==0;case 3:return(t+n)%3==0;case 4:return(Math.floor(t/2)+Math.floor(n/3))%2==0;case 5:return t*n%2+t*n%3==0;case 6:return(t*n%2+t*n%3)%2==0;case 7:return(t+n)%2+t*n%3%2==0}}},f={L:1,M:0,Q:3,H:2},l={getLengthInBits:function(e,t){if(1<=t&&t<10)switch(e){case c.MODE_NUMBER:return 10;case c.MODE_ALPHA_NUM:return 9;case c.MODE_8BIT_BYTE:return 8;case c.MODE_KANJI:return 8}throw new Error("mode")}},p={};return p.QRious=r,p}());</script>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={
+  type:'invoice',
+  template:'royal',
+  accent:'#d4af37',
+  currency:'KES',
+  rates:{KES:1,USD:0.0077,EUR:0.0071,GBP:0.0061},
+  items:[
+    {desc:'EpiLuxe Skin Renewal Serum 30ml', sku:'EPX-330', batch:'B7L91', expiry:'2027-08', qty:1, price:12500},
+    {desc:'Zolmaré Sleep Complex (PhD Grade)', sku:'ZLM-882', batch:'L4K02', expiry:'2026-12', qty:2, price:8900},
+    {desc:'Naisomedi Private Consultation', sku:'SVC-001', batch:'—', expiry:'—', qty:1, price:15000}
+  ],
+  vat:16, wht:0, discMode:'auto', discCustom:0,
+  sealPos:'signature',
+  pharmacy:{name:'Naisomedi Pharmacy',phone:'+254 700 000 111',email:'concierge@naisomedi.pharmacy',area:'Nairobi',place:'Westlands Square',building:'4th Floor'},
+  categories:[{id:'pharmacy',label:'Pharmacy Details',deletable:false}]
+};
+
+function fmt(n, cur=state.currency){
+  const v=n*state.rates[cur];
+  const loc = cur==='KES'?'en-KE':cur==='USD'?'en-US':cur==='EUR'?'de-DE':'en-GB';
+  return new Intl.NumberFormat(loc,{style:'currency',currency:cur,maximumFractionDigits:0}).format(v);
+}
+function todayStr(off=0){const d=new Date();d.setDate(d.getDate()+off);return d.toISOString().slice(0,10)}
+$('#dateIssue').value=todayStr(0); $('#dateDue').value=todayStr(30);
+
+const luxury = ['#d4af37','#b76e79','#7c1d2a','#046307','#0f52ba','#9966cc','#0a0a0f','#1a1d23','#c9b037','#e6be8a','#ad8a56','#c0c0c0','#ffd700','#b08d57','#722f37','#4b0082','#003366','#014421','#800020','#5d3a1a','#2c2c2c','#e5d3b3','#f0e6d2','#d8b4a0','#8b6f47','#536878','#36454f','#6b0f1a','#1e3a5f','#3d2b1f'];
+const sw=$('#swatches'); luxury.forEach(c=>{const b=document.createElement('button');b.className='swatch';b.style.background=c;b.dataset.c=c;b.onclick=()=>setAccent(c);sw.appendChild(b)});
+
+function setAccent(c){state.accent=c;document.documentElement.style.setProperty('--accent',c);$('#accentPicker').value=c;$$('.swatch').forEach(s=>s.classList.toggle('active',s.dataset.c===c));render()}
+$('#accentPicker').oninput=e=>setAccent(e.target.value);
+
+$('#docToggle').onclick=e=>{if(e.target.tagName!=='BUTTON')return;$$('#docToggle button').forEach(b=>b.classList.toggle('active',b===e.target));state.type=e.target.dataset.type;$('#docBig').textContent=state.type.toUpperCase();$('#paper').classList.toggle('invoice',state.type==='invoice');$('#paper').classList.toggle('receipt',state.type==='receipt');render()}
+
+$$('.tpl').forEach(t=>t.onclick=()=>{$$('.tpl').forEach(x=>x.classList.remove('active'));t.classList.add('active');state.template=t.dataset.tpl;$('#paper').className=$('#paper').className.replace(/template-\w+/,'')+' template-'+state.template;render()})
+
+$('#foil').onchange=e=>{$('#paper').classList.remove('foil-single','foil-double');if(e.target.value!=='none')$('#paper').classList.add('foil-'+e.target.value)}
+
+function renderItems(){
+  const wrap=$('#items');wrap.innerHTML='';
+  state.items.forEach((it,i)=>{
+    const div=document.createElement('div');div.className='item';
+    div.innerHTML=`<input placeholder="Description" value="${it.desc}"><input type="number" min="1" value="${it.qty}"><input type="number" min="0" value="${it.price}"><button class="del">×</button>`;
+    const [d,q,p]=div.querySelectorAll('input');
+    d.oninput=()=>{it.desc=d.value;render()};
+    q.oninput=()=>{it.qty=+q.value||0;render()};
+    p.oninput=()=>{it.price=+p.value||0;render()};
+    div.querySelector('.del').onclick=()=>{state.items.splice(i,1);renderItems();render()};
+    wrap.appendChild(div);
+  })
+}
+$('#addItem').onclick=()=>{state.items.push({desc:'Luxury Compounded Rx',sku:'CMP-'+Math.floor(Math.random()*900+100),batch:'B'+Math.random().toString(36).slice(2,5).toUpperCase(),expiry:'2028-01',qty:1,price:7500});renderItems();render()};
+
+['clientName','clientTier','clientId','clientPhone','clientEmail'].forEach(id=>$('#'+id).oninput=render);
+$('#invNo').oninput=()=>{render()};
+$('#currency').onchange=e=>{state.currency=e.target.value;render()};
+$('#vat').oninput=e=>{state.vat=+e.target.value||0;render()};
+$('#wht').oninput=e=>{state.wht=+e.target.value||0;render()};
+$('#discountMode').onchange=e=>{state.discMode=e.target.value;$('#discountCustom').style.display=e.target.value==='custom'?'block':'none';render()};
+$('#discountCustom').oninput=e=>{state.discCustom=+e.target.value||0;render()};
+$('#dateIssue').onchange=render; $('#dateDue').onchange=render;
+$('#notes').oninput=render;
+
+let callig=false; $('#togNote').onclick=()=>{callig=!callig;$('#noteBox').classList.toggle('callig',callig);$('#togNote').textContent='Calligraphy: '+(callig?'ON':'OFF')}
+
+$('#watermark').onchange=e=>{$('#wm').style.display=e.target.value==='on'?'block':'none'}
+$('#sealPos').onchange=e=>{
+  const s=$('#stamp');
+  // Reset all position props before applying new values
+  s.style.top=''; s.style.right=''; s.style.bottom=''; s.style.left='';
+  const val=e.target.value;
+  if(val==='top'){s.style.top='88px'; s.style.right='64px';}
+  else if(val==='signature'){s.style.top='620px'; s.style.right='140px';}
+  else if(val==='bottom-left'){s.style.bottom='28px'; s.style.left='48px';}
+  else if(val==='bottom-right'){s.style.bottom='28px'; s.style.right='48px';}
+  state.sealPos=val;
+  saveDesign();
+}
+
+$$('.stamp-btn').forEach(b=>b.onclick=()=>{$$('.stamp-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const stamp=$('#stamp');stamp.className='stamp '+(b.dataset.stamp);if(b.dataset.stamp==='wax'){stamp.innerHTML='<div class="mon">NP</div>';stamp.style.background=''}else{stamp.innerHTML='<div class="txt">NAISOMEDI • AUTHENTIC</div>';stamp.style.setProperty('--stamp-color',b.dataset.color)}})
+
+$('#logoUp').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>$('#logoImg').src=r.result;r.readAsDataURL(f)}
+let foilOn=true;$('#foilToggle').onclick=()=>{foilOn=!foilOn;$('#logoBox').classList.toggle('foil',foilOn);$('#foilToggle').textContent='Foil: '+(foilOn?'ON':'OFF')}
+
+// signature
+const cv=$('#sigpad'), cx=cv.getContext('2d');let drawing=false,pts=[];
+function resizeSig(){const r=cv.getBoundingClientRect();cv.width=r.width*2;cv.height=r.height*2;cx.scale(2,2);cx.lineCap='round';cx.lineJoin='round';cx.strokeStyle=state.accent;cx.lineWidth=2.2} resizeSig(); addEventListener('resize',resizeSig);
+function pos(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top}}
+cv.addEventListener('pointerdown',e=>{drawing=true;pts=[pos(e)];cx.beginPath();cx.moveTo(pts[0].x,pts[0].y);e.preventDefault()});
+cv.addEventListener('pointermove',e=>{if(!drawing)return;const p=pos(e);pts.push(p);const m=pts.length-1;const prev=pts[m-1];cx.strokeStyle=state.accent;const v=Math.hypot(p.x-prev.x,p.y-prev.y);cx.lineWidth=Math.max(1.2,3-v*0.08);cx.quadraticCurveTo(prev.x,prev.y,(p.x+prev.x)/2,(p.y+prev.y)/2);cx.stroke();cx.beginPath();cx.moveTo((p.x+prev.x)/2,(p.y+prev.y)/2)});
+addEventListener('pointerup',()=>drawing=false);
+$('#sigClear').onclick=()=>{cx.clearRect(0,0,cv.width,cv.height)};
+$('#sigSave').onclick=()=>{const url=cv.toDataURL();$('#sigImg').src=url;$('#sigImg').style.display='block';render()}
+
+// QR
+const qr=new QRious({element:$('#qrc'),size:156,level:'H',foreground:'#1a1a1e',background:'#ffffff00',padding:0});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// POS DESIGN SYNC CONTRACT
+// saveDesign() serialises the active visual design to localStorage key
+// 'NAISOMEDI_DESIGN_STATE'. The Tauri POS (Next.js layer) reads this key
+// via tauri_plugin_store when generating real-time invoices and receipts.
+// loadDesignFromStorage() restores the last saved design on page load.
+// ═══════════════════════════════════════════════════════════════════════════
+function saveDesign(){
+  const design={
+    accent:state.accent,
+    template:state.template,
+    type:state.type,
+    sealPos:$('#sealPos')?$('#sealPos').value:'signature',
+    foil:$('#foil')?$('#foil').value:'double',
+    watermark:$('#watermark')?$('#watermark').value:'on',
+    pharmacy:state.pharmacy,
+    categories:state.categories,
+    savedAt:new Date().toISOString()
+  };
+  try{localStorage.setItem('NAISOMEDI_DESIGN_STATE',JSON.stringify(design));}catch(e){}
+}
+
+function loadDesignFromStorage(){
+  try{
+    const raw=localStorage.getItem('NAISOMEDI_DESIGN_STATE');
+    if(!raw)return;
+    const d=JSON.parse(raw);
+    if(d.accent)setAccent(d.accent);
+    if(d.template){
+      state.template=d.template;
+      $$('.tpl').forEach(t=>t.classList.toggle('active',t.dataset.tpl===d.template));
+      $('#paper').className=$('#paper').className.replace(/template-\w+/,'')+' template-'+d.template;
+    }
+    if(d.foil&&$('#foil')){
+      $('#foil').value=d.foil;
+      $('#paper').classList.remove('foil-single','foil-double');
+      if(d.foil!=='none')$('#paper').classList.add('foil-'+d.foil);
+    }
+    if(d.watermark&&$('#watermark')){
+      $('#watermark').value=d.watermark;
+      $('#wm').style.display=d.watermark==='on'?'block':'none';
+    }
+    if(d.sealPos&&$('#sealPos')){
+      $('#sealPos').value=d.sealPos;
+      $('#sealPos').dispatchEvent(new Event('change'));
+    }
+    if(d.pharmacy){
+      Object.assign(state.pharmacy,d.pharmacy);
+      const pharmFieldMap={pharmName:'name',pharmPhone:'phone',pharmEmail:'email',pharmArea:'area',pharmPlace:'place',pharmBuilding:'building'};
+      Object.entries(pharmFieldMap).forEach(([elId,stateKey])=>{
+        const el=$('#'+elId); if(el)el.value=state.pharmacy[stateKey]||'';
+      });
+    }
+    render();
+  }catch(e){}
+}
+
+function calc(){
+  const sub=state.items.reduce((s,i)=>s+i.qty*i.price,0);
+  const vat=sub*state.vat/100;
+  const wht=sub*state.wht/100;
+  let disc=0;
+  if(state.discMode==='auto'){if(sub>10000)disc=sub*0.10;else if(sub>5000)disc=sub*0.05}
+  else if(state.discMode==='custom')disc=sub*state.discCustom/100;
+  const total=sub+vat-wht-disc;
+  return {sub,vat,wht,disc,total}
+}
+function render(){
+  $('#vName').textContent=$('#clientName').value;
+  $('#vTier').textContent=$('#clientTier').value;
+  $('#vId').textContent=$('#clientId').value;
+  $('#vContact').textContent=$('#clientPhone').value+' • '+$('#clientEmail').value;
+  $('#docNum').textContent=$('#invNo').value;
+  $('#vIssue').textContent=new Date($('#dateIssue').value).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  $('#vDue').textContent=new Date($('#dateDue').value).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  $('#noteBox').textContent=$('#notes').value;
+
+  // Pharmacy Details — sync state to document header
+  if($('#docPharmName'))$('#docPharmName').textContent=state.pharmacy.name;
+  if($('#docPharmInfo'))$('#docPharmInfo').textContent=
+    `${state.pharmacy.building} • ${state.pharmacy.place} • ${state.pharmacy.area} • ${state.pharmacy.phone} • ${state.pharmacy.email}`;
+
+  const tb=$('#tbody');tb.innerHTML='';
+  state.items.forEach(it=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${it.desc}<div class="sku">${it.sku} • Batch ${it.batch}</div></td><td>${it.sku} • ${it.batch}</td><td>${it.expiry}</td><td>${it.qty}</td><td>${fmt(it.price)}</td><td>${fmt(it.qty*it.price)}</td>`;
+    tb.appendChild(tr)
+  });
+  const c=calc();
+  $('#sSub').textContent=fmt(c.sub);
+  $('#sVat').textContent=fmt(c.vat);
+  $('#sWht').textContent=fmt(c.wht);
+  $('#sDisc').textContent='-'+fmt(c.disc);
+  $('#sTotal').textContent=fmt(c.total);
+
+  const id=$('#invNo').value; const hash=btoa(id+Date.now()).slice(0,8).toUpperCase();
+  const url=`https://www.naisomedipharmacy.com/?verify=${encodeURIComponent(id)}&ref=${hash}`;
+  qr.set({value:url,foreground: getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#d4af37'});
+  $('#qrRef').textContent='ID: '+id;
+  const now=new Date(); $('#audit').textContent=`Generated: ${now.toLocaleString()} • Hash: ${hash} • Atelier v1.0`;
+  saveDesign();
+}
+function genNum(){const d=new Date();const seq=String(Math.floor(Math.random()*900)+100).padStart(3,'0');const suf=Math.random().toString(16).slice(2,6).toUpperCase();return `NAI-LUX-${d.getFullYear()}-${seq}-${suf}`}
+$('#newNumber').onclick=()=>{$('#invNo').value=genNum();render()}
+
+$('#saveJson').onclick=()=>{const data={state,client:{name:$('#clientName').value,tier:$('#clientTier').value,id:$('#clientId').value,phone:$('#clientPhone').value,email:$('#clientEmail').value},inv:$('#invNo').value,dates:{i:$('#dateIssue').value,d:$('#dateDue').value},notes:$('#notes').value,sig:$('#sigImg').src};const blob=new Blob([btoa(unescape(encodeURIComponent(JSON.stringify(data))))],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=state.items[0].desc.slice(0,12)+'.lux.json';a.click()}
+$('#loadJson').onclick=()=>$('#fileLoader').click();
+$('#fileLoader').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(decodeURIComponent(escape(atob(r.result))));Object.assign(state,data.state);$('#clientName').value=data.client.name;$('#clientTier').value=data.client.tier;$('#clientId').value=data.client.id;$('#clientPhone').value=data.client.phone;$('#clientEmail').value=data.client.email;$('#invNo').value=data.inv;$('#dateIssue').value=data.dates.i;$('#dateDue').value=data.dates.d;$('#notes').value=data.notes;if(data.sig){$('#sigImg').src=data.sig;$('#sigImg').style.display='block'}
+// Restore pharmacy fields to sidebar inputs after loading
+if(state.pharmacy){const pharmFieldMap={pharmName:'name',pharmPhone:'phone',pharmEmail:'email',pharmArea:'area',pharmPlace:'place',pharmBuilding:'building'};Object.entries(pharmFieldMap).forEach(([elId,k])=>{const el=$('#'+elId);if(el)el.value=state.pharmacy[k]||''});}
+renderItems();render()}catch(err){alert('Invalid file')}};r.readAsText(f)}
+
+$('#dlPNG').onclick=async()=>{
+  const paper=$('#paper');
+  const scale=3;
+  const rect=paper.getBoundingClientRect();
+  const canvas=document.createElement('canvas');canvas.width=rect.width*scale;canvas.height=rect.height*scale;
+  const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#faf8f3';ctx.fillRect(0,0,rect.width,rect.height);
+  // use svg foreignObject
+  const clone=paper.cloneNode(true);
+  clone.style.transform='scale(1)'; // ensure
+  const html=`<svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}"><foreignObject width="100%" height="100%">${new XMLSerializer().serializeToString(clone)}</foreignObject></svg>`;
+  const img=new Image();
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(html);
+  await new Promise(r=>img.onload=r);
+  ctx.drawImage(img,0,0);
+  const a=document.createElement('a');a.download=$('#invNo').value+'.png';a.href=canvas.toDataURL('image/png');a.click();
+};
+
+// ─── Pharmacy Details live binding ──────────────────────────────────────────
+const pharmFieldMap={pharmName:'name',pharmPhone:'phone',pharmEmail:'email',pharmArea:'area',pharmPlace:'place',pharmBuilding:'building'};
+Object.entries(pharmFieldMap).forEach(([elId,stateKey])=>{
+  const el=$('#'+elId); if(!el)return;
+  el.oninput=()=>{state.pharmacy[stateKey]=el.value; render();};
+});
+
+// ─── Category Manager system ─────────────────────────────────────────────────
+function renderCatList(){
+  const list=$('#catList'); if(!list)return;
+  list.innerHTML='';
+  state.categories.forEach(cat=>{
+    const row=document.createElement('div'); row.className='cat-row';
+    const badge=cat.deletable?'':`<span class="cat-badge">CORE</span>`;
+    const delBtn=cat.deletable?`<button class="del" onclick="deleteCat('${cat.id}')">×</button>`:badge;
+    row.innerHTML=`<span>${cat.label}</span>${delBtn}`;
+    list.appendChild(row);
+  });
+}
+
+function deleteCat(id){
+  const idx=state.categories.findIndex(c=>c.id===id);
+  if(idx===-1)return;
+  state.categories.splice(idx,1);
+  const panel=document.getElementById('cat-'+id);
+  if(panel)panel.style.display='none';
+  renderCatList();
+  saveDesign();
+}
+
+$('#addCatBtn').onclick=()=>{
+  const label=prompt('New category name (e.g. "Delivery Info", "Return Policy"):');
+  if(!label||!label.trim())return;
+  const id='cat_'+Date.now();
+  state.categories.push({id,label:label.trim(),deletable:true,text:''});
+  // Build and insert a new generic sidebar control panel after catManager
+  const mgr=document.getElementById('catManager');
+  const div=document.createElement('div');
+  div.className='control'; div.id='cat-'+id; div.setAttribute('data-cat-id',id);
+  div.innerHTML=`<h3>${label.trim()}</h3><label>Content / Notes</label><textarea rows="3" id="catText-${id}" placeholder="Enter details for this category that will appear on the document..."></textarea>`;
+  mgr.insertAdjacentElement('afterend',div);
+  div.querySelector('textarea').oninput=function(){
+    const c=state.categories.find(c=>c.id===id);
+    if(c)c.text=this.value;
+    saveDesign();
+  };
+  renderCatList();
+  saveDesign();
+};
+
+// ─── Init ────────────────────────────────────────────────────────────────────
+renderCatList();
+renderItems(); setAccent('#d4af37'); render(); $('#invNo').value=genNum(); render();
+// Seal default: over signature area
+$('#stamp').style.top='620px'; $('#stamp').style.right='140px';
+// Load any previously saved design state from localStorage
+loadDesignFromStorage();
+</script>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+</body>
+</html>

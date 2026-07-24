@@ -1,0 +1,2 @@
+{"created_at_ms":1783983126135,"model":"openai/nemotron-3-ultra-550b-a55b","session_id":"session-1783983126136-0","type":"session_meta","updated_at_ms":1783983126135,"version":1,"workspace_root":"C:\\Users\\jp756\\NAISOMEDI_POS"}
+{"message":{"blocks":[{"text":"reply with 'ready'","type":"text"}],"role":"user"},"type":"message"}

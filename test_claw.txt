@@ -1,0 +1,1 @@
+Claw Code delegation works via NVIDIA Nemotron 3 Ultra

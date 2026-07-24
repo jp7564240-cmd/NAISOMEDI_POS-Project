@@ -1,0 +1,33 @@
+node_modules/
+.next/
+out/
+target/
+*.db
+*.db-*
+.env
+
+# Build outputs
+dist/
+build/
+src-tauri/target/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Cache
+.cache/
+.turbo/
+*.tsbuildinfo
+
+# AI tools
+.gemini/
