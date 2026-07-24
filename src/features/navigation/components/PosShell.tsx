@@ -67,7 +67,11 @@ function Home() {
         style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
         title="NaiSoMedi Pharmacy OS"
       />
-    </divfunction SettingsPanel() {
+    </div>
+  );
+}
+
+function SettingsPanel() {
   const record = readTotpRecord();
   const userKey = sessionUserKey() ?? 'admin';
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -162,7 +166,6 @@ function Home() {
       </div>}
     </div>
   </div><style jsx>{`.pw-card.open .pw-card-arrow { transform: rotate(180deg) }`}</style></section>;
-}tyle></section>;
 }
 
 function DashboardPage() {
