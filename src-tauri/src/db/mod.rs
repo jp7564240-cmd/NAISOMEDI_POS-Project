@@ -3,8 +3,11 @@ use rusqlite::Connection;
 pub fn get_connection(key: &str) -> Result<Connection, &'static str> {
     let conn = Connection::open("naisomedi.db").map_err(|_| "Failed to open DB")?;
     
+    // Escape single quotes to prevent SQL injection or escaping issues
+    let escaped_key = key.replace('\'', "''");
+
     // PRAGMA key for SQLCipher
-    conn.execute(&format!("PRAGMA key = '{}';", key), []).map_err(|_| "Failed to set DB key")?;
+    conn.execute(&format!("PRAGMA key = '{}';", escaped_key), []).map_err(|_| "Failed to set DB key")?;
     
     // Test key by reading schema
     conn.query_row("SELECT count(*) FROM sqlite_schema", [], |_| Ok(()))
