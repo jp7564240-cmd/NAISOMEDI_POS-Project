@@ -1,0 +1,8 @@
+# Sentinel Security Journal 🛡️
+
+This journal documents critical security learnings, vulnerability patterns, and prevention strategies for the NaiSoMedi POS codebase.
+
+## 2025-02-17 - SQLCipher PRAGMA Key SQL Injection, Execute Errors & Automatic Escaping
+**Vulnerability:** Dynamic database keys were formatted directly into `PRAGMA key = '{}';` SQL statements without single-quote escaping. If a database key contained single quotes (e.g., `temp'key`), it would result in a SQL syntax/injection error, and potentially allow injection.
+**Learning:** SQLCipher uses PRAGMA statements to set the decryption key, which cannot be parameterized via standard positional parameters (such as `?1`). Utilizing standard `conn.execute` in `rusqlite` on `PRAGMA` statements can throw `ExecuteReturnedResults` errors because rusqlite expects non-query operations to return zero rows. While manual single-quote escaping (replacing `'` with `''`) works for raw queries, using `conn.pragma_update(None, "key", &key)` in `rusqlite` is the idiomatic solution that already handles parameter formatting and single-quote escaping internally. Doing manual escaping alongside `pragma_update` results in double-escaping (e.g., `'` becomes `''''`), creating a mismatch between the intended password and the actual physical decryption key used.
+**Prevention:** Always use `conn.pragma_update(None, "key", &key)` instead of raw string-formatted SQL query execution via `conn.execute` to safely manage the execution and automatic escaping of `PRAGMA` database configuration keys in `rusqlite` without doing redundant manual escaping.
