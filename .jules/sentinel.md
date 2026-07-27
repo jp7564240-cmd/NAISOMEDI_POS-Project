@@ -1,0 +1,4 @@
+## 2026-07-27 - SQLCipher PRAGMA Key Escaping and Injection
+**Vulnerability:** SQL Injection and key escaping issues when configuring the SQLCipher key via raw string formatting on `PRAGMA key`.
+**Learning:** Performing manual string formatting/interpolation on database keys (e.g., `PRAGMA key = '{}';`) is highly insecure and prone to SQL Injection. If a dynamic database key contains single quotes or other special characters, the SQL query structure can be modified, leading to syntax errors, failure to open/lock the database, or arbitrary SQL execution.
+**Prevention:** Avoid formatting keys into raw SQL queries. Instead, use rusqlite's `Connection::pragma_update(None, "key", &key)` method to dynamically set the database key, which lets the underlying rusqlite driver handle the escaping of the key parameter safely and securely.
