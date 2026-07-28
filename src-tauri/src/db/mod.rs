@@ -4,7 +4,7 @@ pub fn get_connection(key: &str) -> Result<Connection, &'static str> {
     let conn = Connection::open("naisomedi.db").map_err(|_| "Failed to open DB")?;
     
     // PRAGMA key for SQLCipher
-    conn.execute(&format!("PRAGMA key = '{}';", key), []).map_err(|_| "Failed to set DB key")?;
+    conn.pragma_update(None, "key", &key).map_err(|_| "Failed to set DB key")?;
     
     // Test key by reading schema
     conn.query_row("SELECT count(*) FROM sqlite_schema", [], |_| Ok(()))
@@ -36,4 +36,30 @@ pub fn initialize_db(key: &str) -> Result<(), &'static str> {
     ).map_err(|_| "Failed to create backup codes table")?;
     
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::fs;
+
+    #[test]
+    fn test_initialize_db_with_secure_key() {
+        // Ensure no leftover test DB
+        let _ = fs::remove_file("naisomedi.db");
+
+        let res = initialize_db("my_secure_test_key_123");
+        assert!(res.is_ok(), "Failed to initialize database: {:?}", res);
+
+        // Try opening with correct key
+        let conn_ok = get_connection("my_secure_test_key_123");
+        assert!(conn_ok.is_ok(), "Should successfully connect with correct key");
+
+        // Try opening with wrong key - should fail
+        let conn_err = get_connection("wrong_key");
+        assert!(conn_err.is_err(), "Should fail to connect with wrong key");
+
+        // Clean up
+        let _ = fs::remove_file("naisomedi.db");
+    }
 }
