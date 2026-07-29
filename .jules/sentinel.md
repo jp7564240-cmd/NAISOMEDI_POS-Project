@@ -1,0 +1,4 @@
+## 2026-07-29 - SQLCipher Dynamic Key SQL Injection Risk
+**Vulnerability:** In SQLCipher databases, dynamic database keys must be set dynamically upon connection. Setting a dynamic key by using string concatenation/formatting, e.g., `conn.execute(&format!("PRAGMA key = '{}';", key))` is vulnerable to SQL Injection or double-escaping bugs if the key contains single quotes or other special characters.
+**Learning:** Standard SQL queries shouldn't interpolate values using string formatting. Although the key was a developer/system secret, if user/dynamic input is ever used as part of database key generation, it becomes a severe SQL injection vector.
+**Prevention:** Always use rusqlite's `conn.pragma_update(None, "key", &key)` helper which handles the key dynamically, safely escaping internally, avoiding potential SQL injection and escaping issues.
