@@ -1,0 +1,4 @@
+## 2025-02-13 - Secure SQLCipher Key Setting via pragma_update
+**Vulnerability:** Constructing a PRAGMA key query dynamically using string interpolation (e.g., `format!("PRAGMA key = '{}';", key)`) can lead to SQL injection vulnerabilities and double-escaping/syntax errors when the key contains special characters like single quotes.
+**Learning:** SQLCipher keys set dynamically via raw SQL queries are prone to parsing issues and potential parameter insertion. Instead of standard parameter binding (which cannot be used for PRAGMAs directly with `conn.execute`), rusqlite provides `Connection::pragma_update` to handle escaping internally.
+**Prevention:** Always use `conn.pragma_update(None, "key", &key)` to set the database key dynamically in rusqlite, allowing the library to safely escape and bind the key internally.
