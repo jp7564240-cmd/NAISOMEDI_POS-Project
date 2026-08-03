@@ -1,0 +1,4 @@
+## 2025-02-14 - [SQL Injection in SQLCipher Database Key Parameter]
+**Vulnerability:** A dynamic database key parameter was set by dynamically formatting user/caller-controlled string input directly into a SQL statement via `PRAGMA key = '{}';`. This creates a SQL injection vector in the database key setting phase.
+**Learning:** The database uses SQLCipher, which allows setting encryption keys. When using `rusqlite`'s `execute` or dynamic string format to run `PRAGMA key`, input is not safely escaped or bound. It requires setting database keys via `conn.pragma_update(None, "key", &key)` which allows the `rusqlite` driver to handle the string escaping internally.
+**Prevention:** Always use `conn.pragma_update(None, "key", &key)` when setting or updating dynamic PRAGMA values such as database encryption keys in SQLCipher to ensure safe input handling.
