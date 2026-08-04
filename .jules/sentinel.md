@@ -1,0 +1,4 @@
+## 2025-02-14 - SQLCipher Key Injection in Database Connection
+**Vulnerability:** SQL injection vulnerability via formatted dynamic database keys in `get_connection`. The code used `format!("PRAGMA key = '{}';", key)` which concatenated the key parameter directly into the SQL string. If a key contained a single quote character (e.g. `some'key`), it would result in malformed SQL, broken syntax, or could potentially allow injection of SQL commands.
+**Learning:** SQLCipher encryption keys must be set dynamically, but setting them through string formatting bypasses prepared parameters and exposes the application to SQL injection and double-escaping issues.
+**Prevention:** Always use the dedicated `conn.pragma_update(None, "key", &key)` method provided by the `rusqlite` crate. This allows rusqlite to handle the escaping and passing of the key securely as a parameter internally.
