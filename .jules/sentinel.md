@@ -1,0 +1,4 @@
+## 2025-01-20 - [Secure SQLCipher Key Update via pragma_update]
+**Vulnerability:** SQLCipher database keys interpolation in raw PRAGMA SQL string commands (e.g., `PRAGMA key = '...'`) can lead to SQL injection vulnerabilities, syntax/double-escaping errors, or broken configuration if key characters contain single quotes.
+**Learning:** Raw SQL statements executed via standard SQL execute drivers do not sanitize or parameterize dynamic queries like `PRAGMA key`. Rusqlite provides the secure `pragma_update(None, "key", &key)` helper, which automatically handles input sanitization, dynamic escaping, and database encryption updates correctly.
+**Prevention:** Avoid string formatting or concatenation when setting PRAGMA parameters in rusqlite. Use `conn.pragma_update(None, "key", &key)` instead of manual formatting.
