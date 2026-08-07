@@ -1,0 +1,4 @@
+## 2025-04-10 - Secure SQLCipher Key Setting
+**Vulnerability:** The application was setting the SQLCipher database key dynamically using string formatting with `conn.execute(&format!("PRAGMA key = '{}';", key), [])`. This introduced a dynamic database key injection vulnerability and could lead to SQLite/SQLCipher syntax errors, escaping failures, or dynamic SQL injection if the key contains single quotes or other special/unescaped characters.
+**Learning:** Dynamic query formatting for setting connection-level secrets (like encryption keys) in SQLite/SQLCipher circumvents parameterized queries or secure driver API methods, making the database layer susceptible to injection or failure to load correctly.
+**Prevention:** Use specialized, secure driver methods like `conn.pragma_update(None, "key", &key)` to allow the underlying `rusqlite` driver to handle parameterization and internal escaping securely.
